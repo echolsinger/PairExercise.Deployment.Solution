@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "barnaby-bernedoodle-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: barnaby-bernedoodle
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: pf7hctiCo8ODXA8azXi7EP+JT+r7N1/KsZ6iMHhWe7K/6Przzs+MfxU2xQGSuphthuKinBdiW95V6wP5QzCSk5NPis+Avj/8C5g2IKK+5sH4hkyOw7dvpzmu79XIDW6BQe0B8qv4ntA+XXBlXBxGgOTXVw6tFb2j38AFA9HFg31j2F6ZyR5REQ7HHbUYx3fM4jStXuwPqx+30nBXMTHdwub2q1+/U2aghJU3nAWcrkAvLko76lC5xF52/kt/dPA+gyDBUTiugVAAxgEaj0ZUEJ5bnAsiRbPJROjp5OcVn5iYdRsKuUmIHtAhZ72qn4+27+rgDb05oHbJMPBqeXTbyKSvC/GrLGTcU3cDl/Ma8tx7CANXLh0AUzxoZsEoYeGJmhLBoTO2AU4sy61z3gFIoTBrhExEzCwIwFEEPvkemt2zZkYrkzxL7NDbriAX0H4CEh9UpwvOLF0OgoZugKWA9UPSmMo50D4BZDRyndU6r+r9Z6HtIDeuTWPwJuj6V8A8oQ4Ji1vmf/qv17vkkp9GwAbVpJZ4xg2ZYwpSnb9ZSci60oiLeU3AHwvyWh6AP0uMgv+49cOCkUKt4Ceua3ORv2ZB8x2EKL+oJ3gQKQUn6/l6hacsdl1g2BL+nVOM8scntgww6o//Q6PWw7RB7Oxa7qRWXNaa+AP0GDm/I8Vp2nA=
